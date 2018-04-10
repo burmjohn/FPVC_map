@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +7,7 @@
     <title>S3 FPV Member Map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
-    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/flatly/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet">
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -40,22 +41,34 @@
 
     <div id='content'>
         <div class="sidecontainer">
-            <h1>FPV Chat Member Map</h1>
-            <h4>A map of S3 FPV Members -  <a target="_blank" href="http://s3fpv.com//">S3 FPV</a> | <a target="_blank" href="http://burmjohn.github.io/S3FPV_Map/">Add yourself!</a></h4>
+            <h1>S3 FPV Member Map</h1>
+            <h4>A map of S3 FPV Members <a target="_blank" href="https://S3FPV.com/">S3 FPV</a>  | <a target="_blank" href="https://burmjohn.github.io/S3FPV_Map/">Add yourself!</a> | <span id="pilot-count"></span> Pilots and counting..</h4>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
     <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+
+
 
     <script>
     $.getJSON("https://spreadsheets.google.com/feeds/list/1SUW40-mtpSrY1_8HHVkG_AVYO-LmZyk6Uug-TTw9g4E/1/public/values?alt=json", function(data) {
         L.mapbox.accessToken = 'pk.eyJ1IjoiYnVybWpvaG4iLCJhIjoiY2pmdHVmcmk1MGp5ZDJxcW44Z3B5Zmd6bSJ9.K4InV_V8BxGHoNPL5tV75g';
-        var map = L.mapbox.map('map', 'mapbox.mapbox-streets-v7')
+        var map = L.mapbox.map('map', 'mapbox.streets', {
+	    minZoom: 2,
+   	    // These options apply to the tile layer in the map.
+	    tileLayer: {
+        	// This map option disables world wrapping. by default, it is false.
+	        continuousWorld: false,
+        	// This option disables loading tiles outside of the world bounds.
+	        noWrap: true
+	    }
+	});
 
         var brewers = data.feed.entry;
 
+	$("#pilot-count").text(brewers.length);
         var brewerGeojson = {type: 'FeatureCollection', features: []};
 
         for (var i in brewers) {
@@ -64,10 +77,12 @@
                     type: 'Feature',
                     properties: {
                         title: '<h1>' + brewers[i].gsx$name.$t + '</h1>',
-                        'marker-color': '#227FBB',
-                        'marker-size': 'large',
-                        'marker-symbol': 'beer',
-                        url: 'https://fpvchat.slack.com/team/' + brewers[i].gsx$name.$t
+                        url: 'https://safetythird.slack.com/team/' + brewers[i].gsx$name.$t,
+			icon: {
+				iconUrl: 'https://burmjohn.github.io/S3FPV_Map/Drone.svg',
+				iconSize: [20,20],
+				iconAnchor: [0,10]
+			}
                     },
                     geometry: {
                         type: 'Point',
@@ -81,14 +96,16 @@
         var myLayer = L.mapbox.featureLayer().addTo(map);
 
         myLayer.setGeoJSON(brewerGeojson);
+	myLayer.on('layeradd', function(e) {
+	    var marker = e.layer,
+	      feature = marker.feature;
+	    marker.setIcon(L.icon(feature.properties.icon));
+	});
         myLayer.on('mouseover', function(e) {
             e.layer.openPopup();
         });
         myLayer.on('mouseout', function(e) {
             e.layer.closePopup();
-        });
-        myLayer.on('click', function(e) {
-            window.open(e.layer.feature.properties.url);
         });
         map.setView([39.12367, -106.81229], 4);
         map.fitBounds(myLayer.getBounds());
