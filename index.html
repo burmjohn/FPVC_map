@@ -165,8 +165,8 @@
 
 		// Update these values as the map gets dragged around
 		map.on('moveend', function(event) {
-			$('#entry_375895535').attr('value', map.getCenter().lat);
-			$('#entry_126339808').attr('value', map.getCenter().lng);
+			$('#entry_1233145851').attr('value', map.getCenter().lat);
+			$('#entry_1376747826').attr('value', map.getCenter().lng);
 		});
 
 		// Grab IP location from freegeoip API
@@ -176,8 +176,8 @@
 				x = json.longitude;
 				z = 7
 				// Set form lat/lon fields from map center location
-				$('#entry_375895535').attr('value', y);
-				$('#entry_126339808').attr('value', x);
+				$('#entry_1233145851').attr('value', y);
+				$('#entry_1376747826').attr('value', x);
 				map.panTo([y, x]);
 			}
 		});
