@@ -6,7 +6,7 @@
     <meta charset=utf-8 />
     <title>S3 FPV Member Map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet">
     <style>
         body { margin:0; padding:0; }
@@ -41,14 +41,14 @@
 
     <div id='content'>
         <div class="sidecontainer">
-            <h1><img src="../s3_med.png" />Member Map</h1>
+            <h1><img src="../s3_small.png" />Member Map</h1>
             <h4>A map of <a target="_blank" href="https://S3FPV.com/">S3 Members</a>  | <a target="_blank" href="https://burmjohn.github.io/S3FPV_Map/">Add yourself!</a> | <span id="pilot-count"></span> Pilots and counting..</h4>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
-    <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+    <script src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
 
 
 
@@ -77,12 +77,9 @@
                     type: 'Feature',
                     properties: {
                         title: '<h1>' + brewers[i].gsx$name.$t + '</h1>',
-                        url: 'https://safetythird.slack.com/team/' + brewers[i].gsx$name.$t,
-              			icon: {
-              				iconUrl: 'https://burmjohn.github.io/S3FPV_Map/Drone.svg',
-              				iconSize: [20,20],
-              				iconAnchor: [0,10]
-			                     }
+                        'marker-color': '#227FBB',
+                        'marker-size': 'large',
+                        url: "'https://safetythird.slack.com/team/' + brewers[i].gsx$name.$t"
                     },
                     geometry: {
                         type: 'Point',
