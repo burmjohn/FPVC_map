@@ -1,9 +1,8 @@
-# fpvc
-fpvc Slack community member map
+#
+S3FPV Member Map
 
-Add yourself to the map here: http://kernelsndrs.github.io/FPVC_map
+Add yourself to the map here: http://burmjohn.github.io/S3FPV_Map
 
-See the results here: http://kernelsndrs.github.io/FPVC_map/results/
-
+This is a modified version of a [@kernelsndrs](https://github.com/kernelsndrs/FPVC_map) joint.
 This is a modified version of a [@dmofot](https://github.com/dmofot/) joint.
 This is a modified version of a [@vtcraghead](https://github.com/wboykinm/) joint.
